@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: aianchor-webhook
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    customDomains:
+      - www.aianchor.online
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: WEBHOOK_PATH
+        value: 4d0fe820-6feb-4aeb-96b6-1b980dcf7b83
+      - key: SMTP_HOST
+        value: smtp.zoho.eu
+      - key: SMTP_PORT
+        value: 465
+      - key: SMTP_SECURE
+        value: true
+      - key: SMTP_USER
+        value: info@aianchor.online
+      - key: FROM_EMAIL
+        value: info@aianchor.online
+      - key: TEAM_REPLYTO
+        value: info@aianchor.com
+      - key: SMTP_DEBUG
+        value: false

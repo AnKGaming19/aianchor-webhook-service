@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: aianchor-mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    restart: unless-stopped
+
+  app:
+    build: .
+    container_name: aianchor-webhook-service
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    depends_on:
+      - mailhog
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    command: npm run dev
+
+# For production, use:
+# docker-compose -f docker-compose.yml -f docker-compose.prod.yml up

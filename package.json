@@ -1,0 +1,36 @@
+{
+  "name": "aianchor-webhook-service",
+  "version": "1.0.0",
+  "description": "Minimal local service that replicates n8n webhook flow for AiAnchor booking requests",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node test-webhook.js",
+    "test:production": "node test-production.js",
+    "setup": "copy .env.example .env && echo Setup complete! Edit .env with your SMTP credentials.",
+    "deploy:railway": "railway login && railway up",
+    "deploy:render": "echo Deploy to Render using GitHub integration",
+    "pm2:start": "pm2 start server.js --name aianchor-webhook",
+    "pm2:stop": "pm2 stop aianchor-webhook",
+    "pm2:restart": "pm2 restart aianchor-webhook",
+    "pm2:logs": "pm2 logs aianchor-webhook"
+  },
+  "keywords": ["webhook", "email", "smtp", "nodemailer"],
+  "author": "AiAnchor",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7",
+    "dotenv": "^16.3.1",
+    "morgan": "^1.10.0",
+    "express-rate-limit": "^7.1.5",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
