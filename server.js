@@ -187,11 +187,33 @@ https://www.aianchor.online/`;
   }
 });
 
+// Debug route to show available endpoints
+app.get('/debug', (req, res) => {
+  res.json({
+    ok: true,
+    message: 'Debug info',
+    webhookPath: WEBHOOK_PATH,
+    fullWebhookUrl: `/webhook/${WEBHOOK_PATH}`,
+    environment: process.env.NODE_ENV || 'development',
+    availableEndpoints: [
+      'GET /health',
+      `POST /webhook/${WEBHOOK_PATH}`,
+      'GET /debug'
+    ]
+  });
+});
+
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({
     ok: false,
-    error: 'Endpoint not found'
+    error: 'Endpoint not found',
+    requestedPath: req.originalUrl,
+    availableEndpoints: [
+      'GET /health',
+      `POST /webhook/${WEBHOOK_PATH}`,
+      'GET /debug'
+    ]
   });
 });
 
@@ -211,4 +233,6 @@ app.listen(PORT, () => {
   console.log(`🏥 Health check: GET /health`);
   console.log(`📧 SMTP configured for: ${process.env.SMTP_HOST}:${process.env.SMTP_PORT}`);
   console.log(`📝 Logs will be saved to: ./logs/`);
+  console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔑 WEBHOOK_PATH: ${WEBHOOK_PATH}`);
 });
